@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Form Pendaftaran{% endblock %}
+{% block content %}
+<h2>Form Pendaftaran</h2>
+<form method="post" enctype="multipart/form-data" novalidate>
+  {{ form.csrf_token }}
+  <label>{{ form.name.label }}<br>{{ form.name(size=40) }}</label><br>
+  <label>{{ form.email.label }}<br>{{ form.email(size=40) }}</label><br>
+  <label>{{ form.dob.label }} (yyyy-mm-dd)<br>{{ form.dob() }}</label><br>
+  <label>{{ form.grade.label }}<br>{{ form.grade() }}</label><br>
+  <label>{{ form.phone.label }}<br>{{ form.phone(size=20) }}</label><br>
+  <label>{{ form.parent.label }}<br>{{ form.parent(size=40) }}</label><br>
+  <label>{{ form.address.label }}<br>{{ form.address(rows=3, cols=40) }}</label><br>
+  <label>{{ form.photo.label }}<br><input type="file" name="photo" accept="image/*"></label><br><br>
+
+  <button type="submit">Kirim Pendaftaran</button>
+</form>
+{% endblock %}

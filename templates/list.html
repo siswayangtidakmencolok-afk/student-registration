@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Daftar Pendaftar{% endblock %}
+{% block content %}
+<h2>Daftar Pendaftar</h2>
+<p><a href="{{ url_for('download_csv') }}">Download CSV</a></p>
+{% if students %}
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Nama</th><th>Email</th><th>TTL</th><th>Kelas</th><th>Telepon</th><th>Orang Tua</th><th>Foto</th><th>Waktu</th></tr>
+    </thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td>{{ s.id }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.email }}</td>
+        <td>{{ s.dob }}</td>
+        <td>{{ s.grade }}</td>
+        <td>{{ s.phone }}</td>
+        <td>{{ s.parent }}</td>
+        <td>
+          {% if s.photo %}
+            <a href="{{ url_for('uploaded_file', filename=s.photo) }}" target="_blank">Lihat</a>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td>{{ s.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Belum ada pendaftar.</p>
+{% endif %}
+{% endblock %}
