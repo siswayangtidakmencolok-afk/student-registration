@@ -1,36 +1,64 @@
-{% extends "base.html" %}
-{% block title %}Daftar Pendaftar{% endblock %}
-{% block content %}
-<h2>Daftar Pendaftar</h2>
-<p><a href="{{ url_for('download_csv') }}">Download CSV</a></p>
-{% if students %}
-  <table>
-    <thead>
-      <tr><th>ID</th><th>Nama</th><th>Email</th><th>TTL</th><th>Kelas</th><th>Telepon</th><th>Orang Tua</th><th>Foto</th><th>Waktu</th></tr>
-    </thead>
-    <tbody>
-      {% for s in students %}
-      <tr>
-        <td>{{ s.id }}</td>
-        <td>{{ s.name }}</td>
-        <td>{{ s.email }}</td>
-        <td>{{ s.dob }}</td>
-        <td>{{ s.grade }}</td>
-        <td>{{ s.phone }}</td>
-        <td>{{ s.parent }}</td>
-        <td>
-          {% if s.photo %}
-            <a href="{{ url_for('uploaded_file', filename=s.photo) }}" target="_blank">Lihat</a>
-          {% else %}
-            -
-          {% endif %}
-        </td>
-        <td>{{ s.created_at }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p>Belum ada pendaftar.</p>
-{% endif %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Data Siswa</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; }
+    nav { background: #1a73e8; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: white; text-decoration: none; font-weight: 600; }
+    .container { max-width: 960px; margin: 40px auto; padding: 0 16px; }
+    h2 { margin-bottom: 20px; color: #1a73e8; }
+    .actions { display: flex; gap: 12px; margin-bottom: 20px; }
+    .btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 14px; border: none; cursor: pointer; }
+    .btn-primary { background: #1a73e8; color: white; }
+    .btn-outline { background: white; color: #1a73e8; border: 1.5px solid #1a73e8; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    th { background: #1a73e8; color: white; padding: 12px 16px; text-align: left; font-size: 13px; }
+    td { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8f9ff; }
+    .empty { text-align: center; padding: 48px; color: #888; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">📋 Student Registration</a>
+    <a href="/students">Data Siswa</a>
+  </nav>
+  <div class="container">
+    <h2>Data Siswa Terdaftar</h2>
+    <div class="actions">
+      <a href="/" class="btn btn-primary">+ Tambah Siswa</a>
+      <a href="/download_csv" class="btn btn-outline">⬇ Download CSV</a>
+    </div>
+    {% if students %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>Nama</th><th>Email</th><th>Tgl Lahir</th>
+          <th>Kelas</th><th>Telepon</th><th>Orang Tua</th><th>Terdaftar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in students %}
+        <tr>
+          <td>{{ s['id'] }}</td>
+          <td>{{ s['name'] }}</td>
+          <td>{{ s['email'] }}</td>
+          <td>{{ s['dob'] }}</td>
+          <td>{{ s['grade'] }}</td>
+          <td>{{ s['phone'] }}</td>
+          <td>{{ s['parent'] }}</td>
+          <td>{{ s['created_at'][:10] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty">Belum ada data siswa terdaftar.</div>
+    {% endif %}
+  </div>
+</body>
+</html>
